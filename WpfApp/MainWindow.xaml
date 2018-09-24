@@ -1,0 +1,17 @@
+﻿<Window x:Class="WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="374" Width="837">
+    <Canvas Margin="0,0,2,0" Background="{DynamicResource {x:Static SystemColors.InactiveCaptionBrushKey}}">
+        <DataGrid x:Name="dataGrid_Orders" Grid.Row="1"   EnableRowVirtualization="True" AutoGenerateColumns="False" SelectionMode="Single" IsTextSearchEnabled="True" IsReadOnly="True" RowBackground="LightGray" AlternatingRowBackground="White" Padding="5,0" MinHeight="80"  Height="214" Canvas.Top="36" Width="456" Canvas.Left="19">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="id_" Header="Id" Binding="{Binding orders_id}" Width="40"/>
+                <DataGridTextColumn x:Name="name_" Header="ФИО клиента" Binding="{Binding name_client}" Width="120"/>
+                <DataGridTextColumn x:Name="date1" Header="Дата" Binding="{Binding date}" Width="110"/>
+                <DataGridTextColumn x:Name="dg1" Header="Общая сумма заказа" Binding="{Binding totalSumOrder}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+    </Canvas>
+</Window>
