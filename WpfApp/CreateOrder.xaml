@@ -1,26 +1,29 @@
 ﻿<Window x:Class="WpfApp.CreateOrder"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Создание заказа" Height="430" Width="446"  WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
-    <Canvas  Margin="0,0,0,0" Background="{DynamicResource {x:Static SystemColors.InactiveCaptionBrushKey}}">
+        Title="Создание заказа" Height="473" Width="446"  WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Canvas  Margin="0,0,0,
+             0" Background="{DynamicResource {x:Static SystemColors.InactiveCaptionBrushKey}}">
         <Label Content="ФИО клиента" Canvas.Left="14" Canvas.Top="19"/>
-        <TextBox Height="23" Canvas.Left="131" TextWrapping="Wrap" Text="" Canvas.Top="19" Width="288" RenderTransformOrigin="-0.034,1.115"/>
+        <TextBox Name="NameClient_TextBox" Height="23" Canvas.Left="131" TextWrapping="Wrap" Text="" Canvas.Top="19" Width="288" RenderTransformOrigin="-0.034,1.115"/>
         <Label Content="Позиции заказа" Canvas.Left="14" Canvas.Top="209"/>
 
         <DataGrid x:Name="dataGrid_List_of_order_items" Grid.Row="1" EnableRowVirtualization="True" AutoGenerateColumns="False" SelectionMode="Single" IsTextSearchEnabled="True" IsReadOnly="True" RowBackground="LightGray" AlternatingRowBackground="White" Padding="5,0" MinHeight="80"  Height="147" Canvas.Top="235"  Canvas.Left="14" Width="405" >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Название товара" Binding="{Binding product_name}" Width="220"/>
-                <DataGridTextColumn Header="Количество" Binding="{Binding item_count}" Width="80"/>
-                <DataGridTextColumn Header="Цена за 1 шт." Binding="{Binding product_price}" Width="*"/>
+                <DataGridTextColumn Header="Id" Binding="{Binding product_id}" Width="30"/>
+                <DataGridTextColumn Header="Название товара" Binding="{Binding product_name}" Width="240"/>
+                <DataGridTextColumn Header="Количество" Binding="{Binding item_count}" Width="*"/>
+                <!--<DataGridTextColumn Header="Цена за 1 шт." Binding="{Binding product_price}" Width="*"/>-->
             </DataGrid.Columns>
         </DataGrid>
 
         <Label Content="Название товара" Canvas.Left="14" Canvas.Top="51"/>
-        <ComboBox Canvas.Left="131" Canvas.Top="55" Width="288"/>
+        <ComboBox x:Name="comboBox_nameProduct" Canvas.Left="131" Canvas.Top="55" Width="288"/>
         <Label Content="Количество, шт." Canvas.Left="14" Canvas.Top="85"/>
-        <TextBox Height="23" Canvas.Left="131" TextWrapping="Wrap" Text="" Canvas.Top="88" Width="52"/>
-        <Button Content="Добавить товар в позиции заказа" Background="#FF9AE6BC" Canvas.Left="14" Canvas.Top="127" Width="405" Height="26"/>
-        <Button Content="Удалить товар из позиций заказа" Background="#FFEE7373" Canvas.Left="14" Canvas.Top="167" Width="405" Height="26"/>
+        <TextBox  x:Name="comboBox_count" Height="23" Canvas.Left="131" TextWrapping="Wrap" Text="1" Canvas.Top="88" Width="52"/>
+        <Button Content="Добавить товар в позиции заказа" Background="#FF9AE6BC" Canvas.Left="14" Canvas.Top="127" Width="405" Height="26" Click="AddProduct_Button_Click"/>
+        <Button Content="Удалить товар из позиций заказа" Background="#FFEE7373" Canvas.Left="14" Canvas.Top="167" Width="405" Height="26" Click="DeleteProduct_Button_Click"/>
+        <Button Content="Создать заказ" Canvas.Left="324" Canvas.Top="398" Width="95" Height="26" Click="CreateOrder_Button_Click"/>
 
     </Canvas>
 </Window>

@@ -23,29 +23,64 @@ namespace WpfApp
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
+
             InitializeComponent();
 
+            Load_dataGrid_Orders();
+
+            //// Загрузка данными из базы dataGrid_Orders
+            //try
+            //{
+            //    using (OrdersdbEntities db = new OrdersdbEntities())
+            //    {
+            //        var dataFromQuary = from o in db.Orders.AsEnumerable()
+            //                            from l in db.List_of_order_items
+            //                            from p in db.Products
+            //                            where o.list_of_order_items == l.list_of_order_items__id
+            //                            where l.item_product_id == p.product_id
+            //                            group new { db.Orders, db.List_of_order_items, db.Products, l.item_count, p.product_price }
+            //                            by new { o.orders_id, o.date, o.name_client } into g
+            //                            select new
+            //                            {
+            //                                orders_id = g.Key.orders_id,
+            //                                date = g.Key.date.ToShortDateString(),
+            //                                name_client = g.Key.name_client,
+            //                                totalSumOrder = g.Sum(x => x.item_count * x.product_price)
+            //                            };
+
+            //        dataGrid_Orders.ItemsSource = dataFromQuary;
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show(e.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
+        }
+
+        public void Load_dataGrid_Orders()
+        {
             // Загрузка данными из базы dataGrid_Orders
             try
             {
                 using (OrdersdbEntities db = new OrdersdbEntities())
                 {
-                   var dataFromQuary = from o in db.Orders.AsEnumerable()
-                                       from l in db.List_of_order_items
-                                       from p in db.Products
-                                       where o.list_of_order_items == l.list_of_order_items__id
-                                       where l.item_product_id == p.product_id
-                                       group new { db.Orders, db.List_of_order_items, db.Products, l.item_count, p.product_price }
-                                       by new { o.orders_id, o.date, o.name_client } into g
-                                       select new
-                                       {
-                                           orders_id = g.Key.orders_id,
-                                           date = g.Key.date.ToShortDateString(),
-                                           name_client = g.Key.name_client,
-                                           totalSumOrder = g.Sum(x => x.item_count * x.product_price)
-                                       };
+                    var dataFromQuary = from o in db.Orders.AsEnumerable()
+                                        from l in db.List_of_order_items
+                                        from p in db.Products
+                                        where o.list_of_order_items == l.list_of_order_items__id
+                                        where l.item_product_id == p.product_id
+                                        group new { db.Orders, db.List_of_order_items, db.Products, l.item_count, p.product_price }
+                                        by new { o.orders_id, o.date, o.name_client } into g
+                                        select new
+                                        {
+                                            orders_id = g.Key.orders_id,
+                                            date = g.Key.date.ToShortDateString(),
+                                            name_client = g.Key.name_client,
+                                            totalSumOrder = g.Sum(x => x.item_count * x.product_price)
+                                        };
 
                     dataGrid_Orders.ItemsSource = dataFromQuary;
                 }
