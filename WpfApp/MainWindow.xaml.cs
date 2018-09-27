@@ -60,9 +60,9 @@ namespace WpfApp
             //}
         }
 
+        // Загрузка данных из базы dataGrid_Orders
         public void Load_dataGrid_Orders()
-        {
-            // Загрузка данными из базы dataGrid_Orders
+        {            
             try
             {
                 using (OrdersdbEntities db = new OrdersdbEntities())
@@ -103,7 +103,7 @@ namespace WpfApp
                     object item = dataGrid_Orders.SelectedItem;
                     string ID_List_of_order_items = (dataGrid_Orders.SelectedCells[0].Column.GetCellContent(item) as TextBlock).Text;
                     //MessageBox.Show(ID_List_of_order_items);
-                    Debug.WriteLine(ID_List_of_order_items);
+                    //Debug.WriteLine(ID_List_of_order_items);
 
                     // Загрузка данных в dataGrid_List_of_order_items
                     using (OrdersdbEntities db = new OrdersdbEntities())
@@ -134,12 +134,8 @@ namespace WpfApp
 
         private void CreateOrder_Button_Click(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show(sender.ToString());
             CreateOrder createOrder = new CreateOrder();
-
-
             createOrder.ShowDialog();
-
         }
 
         private void EditOrder_Button_Click(object sender, RoutedEventArgs e)
@@ -150,8 +146,40 @@ namespace WpfApp
 
         private void DeleteOrder_Button_Click(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show(sender.ToString());
+            try
+            {
+                var index = dataGrid_Orders.SelectedIndex;
+                // Проверка на то, что была выделена ячейка
+                if (index > -1)
+                {
+                    if (MessageBox.Show("Вы действительно хотите удалить заказ?", "Удаление заказа", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                    {
+                        // При выборе строки получение ID заказа
+                        object item = dataGrid_Orders.SelectedItem;
+                        string ID_List_of_order_items = (dataGrid_Orders.SelectedCells[0].Column.GetCellContent(item) as TextBlock).Text;
+                        Debug.WriteLine(ID_List_of_order_items);
 
+                        //this.dataGrid_Orders.ItemsSource = dataTable.DefaultView;
+                        //dataGrid_Orders.Items.RemoveAt(index);
+
+                        dataGrid_List_of_order_items.ItemsSource = null;
+                    }
+                }                
+
+
+
+
+                
+            }
+            catch (Exception e2)
+            {
+                MessageBox.Show(e2.Message, "DeleteOrder_Button_Click", MessageBoxButton.OK, MessageBoxImage.Error);
+            } 
+        }
+
+        private void UpdateOrder_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Load_dataGrid_Orders();
         }
     }
 }

@@ -144,15 +144,12 @@ namespace WpfApp
 
                     MessageBox.Show("Данные успешно обновлены", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    // Обновить датагрид
+                    // Обновить датагрид                    
                     //MainWindow wnd = new MainWindow();
                     //wnd.Load_dataGrid_Orders();
 
                     // закрыть окно
-                    //CreateOrder createOrder = new CreateOrder();
-                    //createOrder.Close();
-
-                    this.Owner.Close();
+                    this.Close();
                 }
                 catch (Exception e1)
                 {

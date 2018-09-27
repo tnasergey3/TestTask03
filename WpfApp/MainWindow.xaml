@@ -24,9 +24,10 @@
         <Label Content="Заказы" Canvas.Left="19" Canvas.Top="21"/>
         <Label Content="Список позиций заказа" Canvas.Left="448" Canvas.Top="21"/>
 
-        <Button Content="Создать" Canvas.Left="34" Canvas.Top="288" Width="93" Height="25" Click="CreateOrder_Button_Click"/>
-        <Button Content="Редактировать" Canvas.Left="170" Canvas.Top="288" Width="93" Height="25" Click="EditOrder_Button_Click"/>
-        <Button Content="Удалить" Canvas.Left="313" Canvas.Top="288" Width="93" Height="25" Click="DeleteOrder_Button_Click"/>
+        <Button Content="Создать" Canvas.Left="123" Canvas.Top="288" Width="93" Height="25" Click="CreateOrder_Button_Click"/>
+        <Button Content="Редактировать" Canvas.Left="228" Canvas.Top="288" Width="93" Height="25" Click="EditOrder_Button_Click"/>
+        <Button Content="Удалить" Canvas.Left="332" Canvas.Top="288" Width="93" Height="25" Click="DeleteOrder_Button_Click"/>
+        <Button Content="Обновить" Canvas.Left="19" Canvas.Top="288" Width="93" Height="25" Click="UpdateOrder_Button_Click"/>
 
 
     </Canvas>
