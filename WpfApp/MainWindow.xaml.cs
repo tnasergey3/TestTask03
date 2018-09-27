@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -156,20 +157,41 @@ namespace WpfApp
                     {
                         // При выборе строки получение ID заказа
                         object item = dataGrid_Orders.SelectedItem;
-                        string ID_List_of_order_items = (dataGrid_Orders.SelectedCells[0].Column.GetCellContent(item) as TextBlock).Text;
-                        Debug.WriteLine(ID_List_of_order_items);
+                        int orders_id_temp = Convert.ToInt32((dataGrid_Orders.SelectedCells[0].Column.GetCellContent(item) as TextBlock).Text);
+                        //Debug.WriteLine(orders_id_temp);
 
                         //this.dataGrid_Orders.ItemsSource = dataTable.DefaultView;
                         //dataGrid_Orders.Items.RemoveAt(index);
 
+                        // Определение list_of_order_items
+                        int list_of_order_items_temp = 0;
+
+                        using (OrdersdbEntities db = new OrdersdbEntities())
+                        {
+                            list_of_order_items_temp = db.Orders.Where(x => x.orders_id == orders_id_temp).Select(x => x.list_of_order_items).DefaultIfEmpty().Single();
+                            Debug.WriteLine(list_of_order_items_temp);
+
+                            //List_of_order_items list_of_order_items = new List_of_order_items() { list_of_order_items__id = list_of_order_items_temp };
+                            //db.List_of_order_items.Attach(list_of_order_items);
+                            //db.List_of_order_items.Remove(list_of_order_items);
+                            //db.SaveChanges();
+
+                            db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[List_of_order_items] WHERE [list_of_order_items__id] = {0}", new object[] { list_of_order_items_temp }); 
+                        }
+
+                        using (OrdersdbEntities db = new OrdersdbEntities())
+                        {
+                            Order order = new Order() { orders_id = orders_id_temp };
+                            db.Orders.Attach(order);
+                            db.Orders.Remove(order);
+                            db.SaveChanges();
+                        }
+
+                        Load_dataGrid_Orders();
                         dataGrid_List_of_order_items.ItemsSource = null;
                     }
-                }                
-
-
-
-
-                
+                }            
+                                
             }
             catch (Exception e2)
             {

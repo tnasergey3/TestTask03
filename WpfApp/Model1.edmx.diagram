@@ -7,7 +7,7 @@
       <Diagram DiagramId="458319f1b9f44c85bf6612b56e685c06" Name="Diagram1">
         <EntityTypeShape EntityType="OrdersdbModel.Order" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OrdersdbModel.Product" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="OrdersdbModel.List_of_order_items" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OrdersdbModel.List_of_order_items" Width="1.5" PointX="4" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="OrdersdbModel.FK_List_of_order_items_Product" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

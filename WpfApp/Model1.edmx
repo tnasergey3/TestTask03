@@ -4,14 +4,11 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="OrdersdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Ordersdb.dbo.List_of_order_items' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+    <Schema Namespace="OrdersdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="List_of_order_items">
           <Key>
             <PropertyRef Name="list_of_order_items__id" />
             <PropertyRef Name="item_product_id" />
-            <PropertyRef Name="item_count" />
           </Key>
           <Property Name="list_of_order_items__id" Type="int" Nullable="false" />
           <Property Name="item_product_id" Type="int" Nullable="false" />
@@ -47,22 +44,15 @@ warning 6002: The table/view 'Ordersdb.dbo.List_of_order_items' does not have a 
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="OrdersdbModelStoreContainer">
+          <EntitySet Name="List_of_order_items" EntityType="Self.List_of_order_items" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="List_of_order_items" EntityType="Self.List_of_order_items" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [List_of_order_items].[list_of_order_items__id] AS [list_of_order_items__id], 
-    [List_of_order_items].[item_product_id] AS [item_product_id], 
-    [List_of_order_items].[item_count] AS [item_count]
-    FROM [dbo].[List_of_order_items] AS [List_of_order_items]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_List_of_order_items_Product" Association="Self.FK_List_of_order_items_Product">
             <End Role="Product" EntitySet="Product" />
             <End Role="List_of_order_items" EntitySet="List_of_order_items" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="OrdersdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -88,7 +78,6 @@ warning 6002: The table/view 'Ordersdb.dbo.List_of_order_items' does not have a 
           <Key>
             <PropertyRef Name="list_of_order_items__id" />
             <PropertyRef Name="item_product_id" />
-            <PropertyRef Name="item_count" />
           </Key>
           <Property Name="list_of_order_items__id" Type="Int32" Nullable="false" />
           <Property Name="item_product_id" Type="Int32" Nullable="false" />
