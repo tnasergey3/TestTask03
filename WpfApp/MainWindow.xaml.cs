@@ -24,41 +24,11 @@ namespace WpfApp
     /// </summary>
     public partial class MainWindow : Window
     {
-
         public MainWindow()
         {
-
             InitializeComponent();
 
             Load_dataGrid_Orders();
-
-            //// Загрузка данными из базы dataGrid_Orders
-            //try
-            //{
-            //    using (OrdersdbEntities db = new OrdersdbEntities())
-            //    {
-            //        var dataFromQuary = from o in db.Orders.AsEnumerable()
-            //                            from l in db.List_of_order_items
-            //                            from p in db.Products
-            //                            where o.list_of_order_items == l.list_of_order_items__id
-            //                            where l.item_product_id == p.product_id
-            //                            group new { db.Orders, db.List_of_order_items, db.Products, l.item_count, p.product_price }
-            //                            by new { o.orders_id, o.date, o.name_client } into g
-            //                            select new
-            //                            {
-            //                                orders_id = g.Key.orders_id,
-            //                                date = g.Key.date.ToShortDateString(),
-            //                                name_client = g.Key.name_client,
-            //                                totalSumOrder = g.Sum(x => x.item_count * x.product_price)
-            //                            };
-
-            //        dataGrid_Orders.ItemsSource = dataFromQuary;
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageBox.Show(e.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
         }
 
         // Загрузка данных из базы dataGrid_Orders
@@ -141,8 +111,31 @@ namespace WpfApp
 
         private void EditOrder_Button_Click(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show(sender.ToString());
+            try
+            {                 
+                var index = dataGrid_Orders.SelectedIndex;
+                // Проверка на то, что была выделена ячейка
+                if (index > -1)
+                {
+                    using (OrdersdbEntities db = new OrdersdbEntities())
+                    {
+                        // При выборе строки получение ID заказа
+                        object item = dataGrid_Orders.SelectedItem;
+                    
+                        EditOrder editOrder = new EditOrder();
+                        editOrder.orders_id_temp_EditOrder = Convert.ToInt32((dataGrid_Orders.SelectedCells[0].Column.GetCellContent(item) as TextBlock).Text);
+                        editOrder.list_of_order_items_temp_EditOrder =
+                            db.Orders.Where(x => x.orders_id == editOrder.orders_id_temp_EditOrder)
+                            .Select(x => x.list_of_order_items).FirstOrDefault();
 
+                        editOrder.ShowDialog();
+                    }
+                }
+            }
+            catch (Exception e1)
+            {
+                MessageBox.Show(e1.Message, "EditOrder_Button_Click", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void DeleteOrder_Button_Click(object sender, RoutedEventArgs e)
@@ -158,10 +151,6 @@ namespace WpfApp
                         // При выборе строки получение ID заказа
                         object item = dataGrid_Orders.SelectedItem;
                         int orders_id_temp = Convert.ToInt32((dataGrid_Orders.SelectedCells[0].Column.GetCellContent(item) as TextBlock).Text);
-                        //Debug.WriteLine(orders_id_temp);
-
-                        //this.dataGrid_Orders.ItemsSource = dataTable.DefaultView;
-                        //dataGrid_Orders.Items.RemoveAt(index);
 
                         // Определение list_of_order_items
                         int list_of_order_items_temp = 0;
@@ -190,8 +179,7 @@ namespace WpfApp
                         Load_dataGrid_Orders();
                         dataGrid_List_of_order_items.ItemsSource = null;
                     }
-                }            
-                                
+                }                      
             }
             catch (Exception e2)
             {
