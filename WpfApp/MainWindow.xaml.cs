@@ -74,7 +74,7 @@ namespace WpfApp
                     object item = dataGrid_Orders.SelectedItem;
                     string ID_List_of_order_items = (dataGrid_Orders.SelectedCells[0].Column.GetCellContent(item) as TextBlock).Text;
                     //MessageBox.Show(ID_List_of_order_items);
-                    //Debug.WriteLine(ID_List_of_order_items);
+                    //Debug.WriteLine((dataGrid_Orders.SelectedIndex).ToString());
 
                     // Загрузка данных в dataGrid_List_of_order_items
                     using (OrdersdbEntities db = new OrdersdbEntities())
