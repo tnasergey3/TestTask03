@@ -36,6 +36,9 @@ namespace WpfApp
         {            
             try
             {
+                witoutSort.Background = Brushes.Gold;
+                sort_2017.Background = Brushes.LightGray;
+                sort_2018.Background = Brushes.LightGray;
                 using (OrdersdbEntities db = new OrdersdbEntities())
                 {
                     var dataFromQuary = from o in db.Orders.AsEnumerable()
@@ -190,6 +193,90 @@ namespace WpfApp
         private void UpdateOrder_Button_Click(object sender, RoutedEventArgs e)
         {
             Load_dataGrid_Orders();
+        }
+
+        private void WithoutSorting_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Load_dataGrid_Orders();
+            //witoutSort.Background = Brushes.Gold;
+            //sort_2017.Background = Brushes.LightGray;
+            //sort_2018.Background = Brushes.LightGray;
+        }
+
+
+        private void Sorting_2017_Button_Click(object sender, RoutedEventArgs e)
+        {
+            witoutSort.Background = Brushes.LightGray;
+            sort_2017.Background = Brushes.Gold;
+            sort_2018.Background = Brushes.LightGray;
+            try
+            {
+                DateTime fromDay = (new DateTime(2017, 12, 31, 0, 0, 0));
+                DateTime toDay = (new DateTime(2017, 01, 01, 23, 59, 59));
+
+                using (OrdersdbEntities db = new OrdersdbEntities())
+                {
+                    var dataFromQuary = from o in db.Orders.AsEnumerable()
+                                        from l in db.List_of_order_items
+                                        from p in db.Products
+                                        where o.list_of_order_items == l.list_of_order_items__id
+                                        where l.item_product_id == p.product_id
+                                        where o.date >= toDay
+                                        && o.date <= fromDay
+                                        group new { db.Orders, db.List_of_order_items, db.Products, l.item_count, p.product_price }
+                                        by new { o.orders_id, o.date, o.name_client } into g
+                                        select new
+                                        {
+                                            orders_id = g.Key.orders_id,
+                                            date = g.Key.date.ToShortDateString(),
+                                            name_client = g.Key.name_client,
+                                            totalSumOrder = g.Sum(x => x.item_count * x.product_price)
+                                        };
+
+                    dataGrid_Orders.ItemsSource = dataFromQuary;
+                }
+            }
+            catch (Exception e1)
+            {
+                MessageBox.Show(e1.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void Sorting_2018_Button_Click(object sender, RoutedEventArgs e)
+        {
+            witoutSort.Background = Brushes.LightGray;
+            sort_2017.Background = Brushes.LightGray;
+            sort_2018.Background = Brushes.Gold;
+            try
+            {
+                DateTime fromDay = (new DateTime(2018, 12, 31, 0, 0, 0));
+                DateTime toDay = (new DateTime(2018, 01, 01, 23, 59, 59));
+
+                using (OrdersdbEntities db = new OrdersdbEntities())
+                {
+                    var dataFromQuary = from o in db.Orders.AsEnumerable()
+                                        from l in db.List_of_order_items
+                                        from p in db.Products
+                                        where o.list_of_order_items == l.list_of_order_items__id
+                                        where l.item_product_id == p.product_id
+                                        where o.date >= toDay
+                                        && o.date <= fromDay
+                                        group new { db.Orders, db.List_of_order_items, db.Products, l.item_count, p.product_price }
+                                        by new { o.orders_id, o.date, o.name_client } into g
+                                        select new
+                                        {
+                                            orders_id = g.Key.orders_id,
+                                            date = g.Key.date.ToShortDateString(),
+                                            name_client = g.Key.name_client,
+                                            totalSumOrder = g.Sum(x => x.item_count * x.product_price)
+                                        };
+
+                    dataGrid_Orders.ItemsSource = dataFromQuary;
+                }
+            }
+            catch (Exception e1)
+            {
+                MessageBox.Show(e1.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
