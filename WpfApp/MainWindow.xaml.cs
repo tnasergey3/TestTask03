@@ -37,8 +37,8 @@ namespace WpfApp
             try
             {
                 witoutSort.Background = Brushes.Gold;
-                sort_2017.Background = Brushes.LightGray;
-                sort_2018.Background = Brushes.LightGray;
+                withSort.Background = Brushes.LightGray;
+
                 using (OrdersdbEntities db = new OrdersdbEntities())
                 {
                     var dataFromQuary = from o in db.Orders.AsEnumerable()
@@ -93,7 +93,8 @@ namespace WpfApp
                                                product_id = p.product_id,
                                                product_name = p.product_name,
                                                item_count = l.item_count,
-                                               product_price = p.product_price
+                                               product_price = p.product_price,
+                                               sum = l.item_count * p.product_price
                                            };
 
                         dataGrid_List_of_order_items.ItemsSource = dataFromQuary;
@@ -198,21 +199,23 @@ namespace WpfApp
         private void WithoutSorting_Button_Click(object sender, RoutedEventArgs e)
         {
             Load_dataGrid_Orders();
-            //witoutSort.Background = Brushes.Gold;
-            //sort_2017.Background = Brushes.LightGray;
-            //sort_2018.Background = Brushes.LightGray;
         }
 
-
-        private void Sorting_2017_Button_Click(object sender, RoutedEventArgs e)
+        private void Sorting_Button_Click(object sender, RoutedEventArgs e)
         {
+            withSort.Background = Brushes.Gold;
             witoutSort.Background = Brushes.LightGray;
-            sort_2017.Background = Brushes.Gold;
-            sort_2018.Background = Brushes.LightGray;
             try
             {
-                DateTime fromDay = (new DateTime(2017, 12, 31, 0, 0, 0));
-                DateTime toDay = (new DateTime(2017, 01, 01, 23, 59, 59));
+                DateTime fromDay = (new DateTime(
+                    Convert.ToInt32(from_year_TextBox.Text),
+                    Convert.ToInt32(from_month_TextBox.Text),
+                    Convert.ToInt32(from_day_TextBox.Text), 0, 0, 0));
+                
+                DateTime toDay = (new DateTime(
+                    Convert.ToInt32(to_year_TextBox.Text),
+                    Convert.ToInt32(to_month_TextBox.Text),
+                    Convert.ToInt32(to_day_TextBox.Text), 23, 59, 59));
 
                 using (OrdersdbEntities db = new OrdersdbEntities())
                 {
@@ -221,45 +224,8 @@ namespace WpfApp
                                         from p in db.Products
                                         where o.list_of_order_items == l.list_of_order_items__id
                                         where l.item_product_id == p.product_id
-                                        where o.date >= toDay
-                                        && o.date <= fromDay
-                                        group new { db.Orders, db.List_of_order_items, db.Products, l.item_count, p.product_price }
-                                        by new { o.orders_id, o.date, o.name_client } into g
-                                        select new
-                                        {
-                                            orders_id = g.Key.orders_id,
-                                            date = g.Key.date.ToShortDateString(),
-                                            name_client = g.Key.name_client,
-                                            totalSumOrder = g.Sum(x => x.item_count * x.product_price)
-                                        };
-
-                    dataGrid_Orders.ItemsSource = dataFromQuary;
-                }
-            }
-            catch (Exception e1)
-            {
-                MessageBox.Show(e1.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-        private void Sorting_2018_Button_Click(object sender, RoutedEventArgs e)
-        {
-            witoutSort.Background = Brushes.LightGray;
-            sort_2017.Background = Brushes.LightGray;
-            sort_2018.Background = Brushes.Gold;
-            try
-            {
-                DateTime fromDay = (new DateTime(2018, 12, 31, 0, 0, 0));
-                DateTime toDay = (new DateTime(2018, 01, 01, 23, 59, 59));
-
-                using (OrdersdbEntities db = new OrdersdbEntities())
-                {
-                    var dataFromQuary = from o in db.Orders.AsEnumerable()
-                                        from l in db.List_of_order_items
-                                        from p in db.Products
-                                        where o.list_of_order_items == l.list_of_order_items__id
-                                        where l.item_product_id == p.product_id
-                                        where o.date >= toDay
-                                        && o.date <= fromDay
+                                        where o.date >= fromDay
+                                        && o.date <= toDay
                                         group new { db.Orders, db.List_of_order_items, db.Products, l.item_count, p.product_price }
                                         by new { o.orders_id, o.date, o.name_client } into g
                                         select new

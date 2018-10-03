@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Учет заказов" Height="405" Width="926" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
     <Canvas Margin="0,0,0,0" Background="{DynamicResource {x:Static SystemColors.InactiveCaptionBrushKey}}">
-        <DataGrid x:Name="dataGrid_Orders" Grid.Row="1" MouseUp="dataGrid_Orders_MouseUp" EnableRowVirtualization="True" AutoGenerateColumns="False" SelectionMode="Single" IsTextSearchEnabled="True" IsReadOnly="True" RowBackground="LightGray" AlternatingRowBackground="White" Padding="5,0" MinHeight="80"  Height="214" Canvas.Top="85" Width="406" Canvas.Left="19">
+        <DataGrid x:Name="dataGrid_Orders" Grid.Row="1" MouseUp="dataGrid_Orders_MouseUp" EnableRowVirtualization="True" AutoGenerateColumns="False" SelectionMode="Single" IsTextSearchEnabled="True" IsReadOnly="True" RowBackground="LightGray" AlternatingRowBackground="White" Padding="5,0" MinHeight="80"  Height="214" Canvas.Top="94" Width="415" Canvas.Left="19">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="id_" Header="Id" Binding="{Binding orders_id}" Width="40"/>
                 <DataGridTextColumn x:Name="name_" Header="ФИО клиента" Binding="{Binding name_client}" Width="120"/>
@@ -12,27 +12,39 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid x:Name="dataGrid_List_of_order_items" Grid.Row="1" EnableRowVirtualization="True" AutoGenerateColumns="False" SelectionMode="Single" IsTextSearchEnabled="True" IsReadOnly="True" RowBackground="LightGray" AlternatingRowBackground="White" Padding="5,0" MinHeight="80"  Height="214" Canvas.Top="85"  Canvas.Left="448" Width="438" >
+        <DataGrid x:Name="dataGrid_List_of_order_items" Grid.Row="1" EnableRowVirtualization="True" AutoGenerateColumns="False" SelectionMode="Single" IsTextSearchEnabled="True" IsReadOnly="True" RowBackground="LightGray" AlternatingRowBackground="White" Padding="5,0" MinHeight="80"  Height="214" Canvas.Top="94"  Canvas.Left="448" Width="453" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding product_id}" Width="30"/>
                 <DataGridTextColumn Header="Название товара" Binding="{Binding product_name}" Width="220"/>
                 <DataGridTextColumn Header="Количество" Binding="{Binding item_count}" Width="80"/>
-                <DataGridTextColumn Header="Цена за 1 шт." Binding="{Binding product_price}" Width="*"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding product_price}" Width="50"/>
+                <DataGridTextColumn Header="Сумма" Binding="{Binding sum}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <Label Content="Заказы" Canvas.Left="19" Canvas.Top="54"/>
-        <Label Content="Список позиций заказа" Canvas.Left="448" Canvas.Top="54"/>
+        <Label Content="Заказы" Canvas.Left="19" Canvas.Top="63"/>
+        <Label Content="Список позиций заказа" Canvas.Left="448" Canvas.Top="63"/>
 
-        <Button Content="Создать" Canvas.Left="123" Canvas.Top="321" Width="93" Height="25" Click="CreateOrder_Button_Click"/>
-        <Button Content="Редактировать" Canvas.Left="228" Canvas.Top="321" Width="93" Height="25" Click="EditOrder_Button_Click"/>
-        <Button Content="Удалить" Canvas.Left="332" Canvas.Top="321" Width="93" Height="25" Click="DeleteOrder_Button_Click"/>
-        <Button Content="Обновить" Canvas.Left="19" Canvas.Top="321" Width="93" Height="25" Click="UpdateOrder_Button_Click"/>
-        <Label Content="Отобрать заказы" Canvas.Left="19" Canvas.Top="15"/>
-        <Button x:Name="witoutSort" Content="Без сортировки" Canvas.Left="127" Canvas.Top="18" Width="110" Click="WithoutSorting_Button_Click"/>
-        <Button x:Name="sort_2018" Content="За 2018" Canvas.Left="355" Canvas.Top="18" Width="65" Click="Sorting_2018_Button_Click" />
-        <Button x:Name="sort_2017" Content="За 2017" Canvas.Left="265" Canvas.Top="18" Width="65" Click="Sorting_2017_Button_Click"/>
+        <Button Content="Создать" Canvas.Left="123" Canvas.Top="330" Width="93" Height="25" Click="CreateOrder_Button_Click"/>
+        <Button Content="Редактировать" Canvas.Left="228" Canvas.Top="330" Width="93" Height="25" Click="EditOrder_Button_Click"/>
+        <Button Content="Удалить" Canvas.Left="332" Canvas.Top="330" Width="93" Height="25" Click="DeleteOrder_Button_Click"/>
+        <Button Content="Обновить" Canvas.Left="19" Canvas.Top="330" Width="93" Height="25" Click="UpdateOrder_Button_Click"/>
+        <Label Content="Отобрать заказы с" Canvas.Left="19" Canvas.Top="23" Width="115"/>
+        <Button x:Name="witoutSort" Content="Показать все" Canvas.Left="291" Canvas.Top="26" Width="143" Click="WithoutSorting_Button_Click"/>
 
+        <TextBox x:Name="from_day_TextBox" Height="18" Canvas.Left="145" TextWrapping="Wrap" Text="01" Canvas.Top="29" Width="30"/>
+        <TextBox x:Name="from_month_TextBox" Height="18" Canvas.Left="183" TextWrapping="Wrap" Text="01" Canvas.Top="29" Width="40"/>
+        <TextBox x:Name="from_year_TextBox" Height="18" Canvas.Left="229" TextWrapping="Wrap" Text="2017" Canvas.Top="29" Width="40"/>
+        
+        <Label Content="по" Canvas.Left="114" Canvas.Top="49" Width="28"/>
+        <Label Content="День" Canvas.Left="142" Canvas.Top="5" Width="41"/>
+        <Label Content="Месяц" Canvas.Left="179" Canvas.Top="5" Width="47"/>
+        <Label Content="Год" Canvas.Left="224" Width="29" Canvas.Top="5"/>
 
+        <TextBox x:Name="to_day_TextBox" Height="18" Canvas.Left="145" TextWrapping="Wrap" Text="01" Canvas.Top="53" Width="30"/>
+        <TextBox x:Name="to_month_TextBox" Height="18" Canvas.Left="183" TextWrapping="Wrap" Text="10" Canvas.Top="53" Width="40"/>
+        <TextBox x:Name="to_year_TextBox" Height="18" Canvas.Left="229" TextWrapping="Wrap" Text="2017" Canvas.Top="53" Width="40"/>
+        
+        <Button x:Name="withSort" Content="Показать в интервале" Canvas.Left="291" Canvas.Top="53" Width="143" Height="20" Click="Sorting_Button_Click"/>
     </Canvas>
 </Window>
